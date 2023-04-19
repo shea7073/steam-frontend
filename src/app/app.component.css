@@ -1,0 +1,15 @@
+
+#main-container {
+  display: flex;
+  justify-content: space-between;
+  /*width: 80%;*/
+  /*margin: auto;*/
+  margin-left: 10%;
+  margin-right: 25%;
+}
+
+
+
+app-top-games {
+  margin-right: 1rem;
+}
