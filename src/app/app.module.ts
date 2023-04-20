@@ -12,6 +12,7 @@ import { WishlistComponent } from './wishlist/wishlist.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GameStatsPanelComponent } from './game-stats-panel/game-stats-panel.component';
 import {MatExpansionModule} from "@angular/material/expansion";
+import { TodayChartComponent } from './today-chart/today-chart.component';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import {MatExpansionModule} from "@angular/material/expansion";
     GamePriceComponent,
     WishlistComponent,
     GameStatsPanelComponent,
+    TodayChartComponent,
   ],
   imports: [
     BrowserModule,
