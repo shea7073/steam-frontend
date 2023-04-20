@@ -1,0 +1,34 @@
+caption {
+  padding: .5rem;
+  color: white;
+}
+
+table {
+  background-color: white;
+  border-radius: 5px;
+  font-family: Verdana, sans-serif;
+}
+
+tr {
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+}
+
+tr:nth-child(even) {
+  background-color: #ededed
+}
+
+th:hover {
+  cursor: pointer;
+}
+
+.filter-container {
+  display: flex;
+  padding: 5px;
+}
+
+.filter-container label {
+  font-size: .75rem;
+  white-space: nowrap;
+  margin-right: 2px;
+}
