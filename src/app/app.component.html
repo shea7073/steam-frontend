@@ -1,8 +1,11 @@
+
+
 <app-background></app-background>
-<div id="main-container">
-  <app-top-games></app-top-games>
-  <app-wishlist style="position: fixed; right: 30px;"></app-wishlist>
 
+<nav>
+  <a href="/">Top Selling Games</a>
+  <a href="/stats">Game Stats</a>
+  <a href="/genre-picker">Genre Picker</a>
+</nav>
 
-</div>
-<app-game-stats-panel></app-game-stats-panel>
+<router-outlet></router-outlet>

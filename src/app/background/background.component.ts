@@ -22,11 +22,13 @@ export class BackgroundComponent implements AfterViewInit {
 
 
   init() {
+    // get size for canvas
     this.context.canvas.width = window.innerWidth;
     this.context.canvas.height = window.innerHeight;
     this.width = this.context.canvas.width;
     this.height = this.context.canvas.height;
 
+    // create data for the balls
     for (let i = 0; i < 10; i++) {
       let radius = Math.floor(Math.random() * (10 - 3 + 1)) + 3;
       let spawnX = Math.floor(Math.random() * ((this.width - radius) - radius + 1)) + radius;
@@ -34,6 +36,7 @@ export class BackgroundComponent implements AfterViewInit {
       let speed = Math.floor(Math.random() * (10 - 3 + 1)) + 3;
       this.ballInfo.push({x: spawnX, y: spawnY, speed: speed, radius: radius});
     }
+    // redraw the canvas on interval
     this.intervalID = setInterval(()=>{this.drawBallOnCanvas()}, 33);
 
   }
@@ -72,14 +75,13 @@ export class BackgroundComponent implements AfterViewInit {
     }
   }
 
-
   constructor() {
     this.ballInfo = [];
     this.width = window.innerWidth
     this.height = window.innerHeight;
 
   }
-
+  // restart animation on window resize
   @HostListener('window:resize', ['$event'])
   onResize(event: any){
     this.ballInfo = [];
@@ -88,6 +90,7 @@ export class BackgroundComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
+    // get canvas and run init
     this.canvas = this.myCanvas.nativeElement;
     this.context = this.canvas.getContext('2d');
     this.init();

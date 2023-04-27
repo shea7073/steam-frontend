@@ -1,1 +1,19 @@
 <canvas #chartCanvas ></canvas>
+<hr>
+<div class="stat-container">
+  <div class="average-players">
+    <h3>Average Players <h6>(while in top 100)</h6></h3>
+    <h4>{{averagePlayers | number}}</h4>
+  </div>
+  <div class="best-time">
+    <h3>Best Time to Play</h3>
+    <h4>{{bestPlayTime}}</h4>
+  </div>
+  <div class="current-rank">
+    <h3>Current Rank</h3>
+    <h4 *ngIf="index !== undefined">{{index+1}}</h4>
+  </div>
+
+
+</div>
+

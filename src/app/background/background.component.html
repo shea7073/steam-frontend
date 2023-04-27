@@ -1,1 +1,124 @@
 <canvas #myCanvas (resized)="onResize($event)" style="border: 1px solid;"></canvas>
+<svg width="800" height="800">
+
+  <defs>
+
+    <g id="cogs">
+      <rect rx="3" x="-10" y="48" width="20" height="20" fill="#BEBEBE"></rect>
+      <rect rx="3" x="-10" y="-68" width="20" height="20" fill="#BEBEBE"></rect>
+      <rect rx="3" x="-68" y="-5" width="20" height="20" fill="#BEBEBE"></rect>
+      <rect rx="3" x="48" y="-10" width="20" height="20" fill="#BEBEBE"></rect>
+    </g>
+
+    <g id="gear">
+      <ellipse cx="0" cy="0" rx="50" ry="50" fill="#BEBEBE">
+      </ellipse>
+      <ellipse cx="0" cy="0" rx="35" ry="35" fill="#FFFFFF" fill-opacity="0.5"></ellipse>
+      <g transform="rotate(45)">
+        <use xlink:href="#cogs">
+        </use></g>
+      <g>
+        <use xlink:href="#cogs">
+        </use></g>
+
+
+
+    </g>
+  </defs>
+
+  <g>
+    <use xlink:href="#gear" transform="translate(150, 300)">
+    </use>
+
+    <animateTransform
+      id = 'gear1'
+      attributeName="transform"
+      begin="0s" dur = "5s"
+      type = "rotate"
+      from = "0, 150, 300"
+      to = "360, 150, 300"
+      repeatCount = "indefinite"
+    ></animateTransform>
+
+  </g>
+
+  <g>
+    <use xlink:href="#gear" transform="translate(270, 300) rotate(25)">
+    </use>
+
+    <animateTransform
+      id = 'gear2'
+      attributeName="transform"
+      begin="0s" dur = "5s"
+      type = "rotate"
+      from = "360, 270, 300"
+      to = "0, 270, 300"
+      repeatCount = "indefinite"
+    ></animateTransform>
+
+  </g>
+
+  <g>
+    <use xlink:href="#gear" transform="translate(850, 350)">
+    </use>
+
+    <animateTransform
+      id = 'gear1'
+      attributeName="transform"
+      begin="0s" dur = "5s"
+      type = "rotate"
+      from = "0, 850, 350"
+      to = "360, 850, 350"
+      repeatCount = "indefinite"
+    ></animateTransform>
+
+  </g>
+
+  <g>
+    <use xlink:href="#gear" transform="translate(850, 470) rotate(25)">
+    </use>
+
+    <animateTransform
+      id = 'gear2'
+      attributeName="transform"
+      begin="0s" dur = "5s"
+      type = "rotate"
+      from = "360, 850, 470"
+      to = "0, 850, 470"
+      repeatCount = "indefinite"
+    ></animateTransform>
+
+  </g>
+
+  <g>
+    <use xlink:href="#gear" transform="translate(400, 600) rotate(25)">
+    </use>
+
+    <animateTransform
+      id = 'gear2'
+      attributeName="transform"
+      begin="0s" dur = "5s"
+      type = "rotate"
+      from = "360, 400, 600"
+      to = "0, 400, 600"
+      repeatCount = "indefinite"
+    ></animateTransform>
+
+  </g>
+  <g>
+    <use xlink:href="#gear" transform="translate(300, 665) rotate(25)">
+    </use>
+
+    <animateTransform
+      id = 'gear2'
+      attributeName="transform"
+      begin="0s" dur = "5s"
+      type = "rotate"
+      from = "0, 300, 665"
+      to = "360, 300, 665"
+      repeatCount = "indefinite"
+    ></animateTransform>
+
+  </g>
+
+</svg>

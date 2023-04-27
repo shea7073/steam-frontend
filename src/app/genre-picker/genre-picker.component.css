@@ -1,0 +1,83 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  color: white;
+}
+
+input {
+  height: 25px;
+  width: 200px;
+  margin: auto;
+  margin-bottom: 10px;
+}
+
+.search-header {
+  font-style: italic;
+  color: gray;
+}
+
+.tag-matches {
+  background-color: white;
+  width: 25%;
+  margin: auto;
+  border-radius: 5px;
+  position: absolute;
+  left: 37.5%;
+  z-index: 1;
+}
+
+.match {
+  padding: 5px;
+  border-bottom: #bfc7ce 1px solid;
+}
+
+.selected-tags {
+  text-align: center;
+  background-color: white;
+  width: 60%;
+  margin: auto auto 20px;
+  border-radius: 5px;
+  padding: 8px;
+}
+
+.tag-container {
+  display: inline-block;
+  padding: 3px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  background-color: #bfc7ce;
+  border-radius: 5px;
+}
+
+.results h2 {
+  text-align: center;
+}
+
+.results {
+  background-color: white;
+  width: 80%;
+  margin: auto;
+  border-radius: 5px;
+
+}
+
+tr:nth-child(even) {
+  background-color: #ededed
+}
+
+.our-picks {
+  background-color: white;
+  width: 80%;
+  margin: auto;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+caption {
+  color: white;
+  margin-bottom: 5px;
+}
+

@@ -13,6 +13,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GameStatsPanelComponent } from './game-stats-panel/game-stats-panel.component';
 import {MatExpansionModule} from "@angular/material/expansion";
 import { TodayChartComponent } from './today-chart/today-chart.component';
+import {FormsModule} from "@angular/forms";
+import { GenrePickerComponent } from './genre-picker/genre-picker.component';
 
 
 @NgModule({
@@ -25,14 +27,16 @@ import { TodayChartComponent } from './today-chart/today-chart.component';
     WishlistComponent,
     GameStatsPanelComponent,
     TodayChartComponent,
+    GenrePickerComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MatExpansionModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        MatExpansionModule,
+        FormsModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

@@ -1,15 +1,24 @@
-
-#main-container {
+nav {
+  padding: 10px;
   display: flex;
-  justify-content: space-between;
-  /*width: 80%;*/
-  /*margin: auto;*/
-  margin-left: 10%;
-  margin-right: 25%;
+  justify-content: center;
+  color: black;
+  background-color: white;
+  width: 80%;
+  margin: 20px auto 15px;
+  border-radius: 5px;
+
 }
 
+nav a {
+  text-decoration: none;
+  padding: 5px;
+  background-color: #d4dade;
+  color: black;
+  margin: 5px;
+  border-radius: 5px;
+}
 
-
-app-top-games {
-  margin-right: 1rem;
+nav a:hover {
+  background-color: #bfc7ce;
 }

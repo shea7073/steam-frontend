@@ -1,0 +1,59 @@
+<div class="header">
+  <h1>What kind of game are you looking for?</h1>
+  <label for="genre-search">Enter a Genre!</label>
+  <input id="genre-search" name='genre-search' placeholder="i.e. Shooter" [(ngModel)]="searchTag" (keyup)="search(this.searchTag)">
+</div>
+<div class="tag-matches"  *ngIf="tagMatches.length">
+  <p class="search-header">Matching tags...</p>
+  <p class="match" [(ngModel)]="tagMatches" ngDefaultControl (click)="selectTag(tag)" *ngFor="let tag of tagMatches">
+    {{tag}}
+  </p>
+</div>
+<div class="selected-tags" *ngIf="selectedTags.length">
+  <p ngDefaultControl [(ngModel)]="selectedTags">Currently Selected Tags:
+    <span class="tag-container" *ngFor="let tag of selectedTags" (click)="removeTag(tag)">{{tag}}<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+</svg></span></p>
+</div>
+
+<table class="our-picks" *ngIf="ourPicks.length">
+  <caption>Our Picks!</caption>
+  <tr>
+    <th>Title</th>
+    <th>Discounted?</th>
+    <th>Highly Rated?</th>
+    <th>Popular?</th>
+  </tr>
+  <tr *ngFor="let pick of ourPicks">
+    <td>{{pick.Title}}</td>
+    <td><span *ngIf="pick.discounted; else noDiscount" style="color: lawngreen">yes</span>
+      <ng-template #noDiscount><span style="color: red">no</span></ng-template></td>
+    <td><span *ngIf="pick.highlyRated; else lowRating" style="color: limegreen">yes</span>
+      <ng-template #lowRating><span style="color: red">no</span></ng-template></td>
+    <td><span *ngIf="pick.popular; else notPopular" style="color: limegreen">yes</span>
+      <ng-template #notPopular><span style="color: red">no</span></ng-template></td>
+  </tr>
+</table>
+<div class="results" *ngIf="results.length">
+
+  <h2>These Games Match Your Preferred Genres</h2>
+
+  <table>
+    <tr>
+      <th>Title</th>
+      <th>Discounted?</th>
+      <th>Highly Rated?</th>
+      <th>Popular?</th>
+    </tr>
+
+    <tr *ngFor="let result of results">
+      <td>{{result.Title}}</td>
+      <td><span *ngIf="result.discounted; else noDiscount" style="color: lawngreen">yes</span>
+        <ng-template #noDiscount><span style="color: red">no</span></ng-template></td>
+      <td><span *ngIf="result.highlyRated; else lowRating" style="color: limegreen">yes</span>
+      <ng-template #lowRating><span style="color: red">no</span></ng-template></td>
+      <td><span *ngIf="result.popular; else notPopular" style="color: limegreen">yes</span>
+        <ng-template #notPopular><span style="color: red">no</span></ng-template></td>
+    </tr>
+  </table>
+</div>

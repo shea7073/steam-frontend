@@ -15,6 +15,7 @@ export class GamePriceComponent implements OnInit{
   original_price: string;
 
   constructor() {
+    // initial values
     this.discounted = false
     this.percentage = 0;
     this.final_price = 0;
@@ -23,6 +24,7 @@ export class GamePriceComponent implements OnInit{
 
   }
 
+  // calculate the discount % based on new and sale price
   calculateDiscount(original_price: string, sale_price: string): number {
     let original_float: number = parseFloat(original_price.substring(1));
     let sale_float: number = parseFloat(sale_price.substring(1));
@@ -56,6 +58,11 @@ export class GamePriceComponent implements OnInit{
     else if (this.game.Price_No_Sale === null && this.game.Price_Sale.Sale_Price && this.game.Price_Sale.Original_Price == null) {
       this.final_price = this.game.Price_Sale.Sale_Price
     }
+    if (this.game.Price_No_Sale?.toUpperCase() === 'FREE TO PLAY'){
+      this.discounted = false;
+      this.final_price = this.game.Price_No_Sale;
+    }
+    // save final pricing data
     this.game.final_pricing = {
       discounted: this.discounted,
       percentage: this.percentage,

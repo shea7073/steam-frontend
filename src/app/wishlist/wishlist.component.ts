@@ -8,11 +8,17 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 export class WishlistComponent implements AfterViewInit{
 
   total: number;
+  totalString: string;
+  empty: boolean;
   constructor() {
+    // initial values
     this.total = 0;
+    this.totalString = '0'
+    this.empty = true;
   }
 
   ngAfterViewInit() {
+    // create listeners for the drag events
     let target = document.getElementById('wishlist-container');
     target?.addEventListener('dragenter', (e)=>{
       e.preventDefault();
@@ -20,15 +26,8 @@ export class WishlistComponent implements AfterViewInit{
     target?.addEventListener('dragover', (e)=>{
       e.preventDefault();
     });
-    // target?.addEventListener('drop', (e)=>{
-    //   e.preventDefault();
-    //   let newElement = document.createElement('li');
-    //   let data = e.dataTransfer?.getData('text');
-    //   newElement.innerHTML = JSON.parse(data!).title + ' - ' + JSON.parse(data!).price;
-    //   target?.appendChild(newElement);
-    //   target!.style.listStyleType = 'none';
-    // });
     target?.addEventListener('drop', (e)=>{
+      this.empty = false
       let table = document.getElementById('wishlist-table')
       e.preventDefault();
       let newElement = document.createElement('tr');
@@ -42,11 +41,13 @@ export class WishlistComponent implements AfterViewInit{
       target?.appendChild(newElement);
       target!.style.listStyleType = 'none';
 
-      if (JSON.parse(data!).price != 'Free to Play') {
+      // if game isn't free then update total
+      if (JSON.parse(data!).price != 'Free to Play' && JSON.parse(data!).price!= 'Free To Play') {
         let price = JSON.parse(data!).price;
         let price_float = parseFloat(price.slice(1));
         this.total += Math.round(price_float * 100) / 100
-        this.total = Math.round(this.total * 100)/100
+        this.total = (Math.round(this.total * 100)/100);
+        this.totalString = this.total.toLocaleString(undefined, { maximumFractionDigits: 2, minimumFractionDigits: 2 })
       }
       console.log(Math.round(this.total * 100)/100);
     });

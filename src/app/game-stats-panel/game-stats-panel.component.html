@@ -1,20 +1,23 @@
-<mat-accordion>
-  <mat-expansion-panel (opened)="panelOpenState = true"
-                       (closed)="panelOpenState = false" *ngFor="let game of currentPlayerStats">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        {{game.Data.Title}}
-      </mat-panel-title>
-      <mat-panel-description>
-        Current Players: {{game.Data.Current}}
-      </mat-panel-description>
-      <mat-panel-description>
-        24hr Peak: {{game.Data.Peak_today}}
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-    <app-today-chart [gameTitle]="game.Data.Title" ></app-today-chart>
+<div>
+  <h3>100 Most Played Games Today</h3>
+  <mat-accordion>
+    <mat-expansion-panel (opened)="panelOpenState = true"
+                         (closed)="panelOpenState = false" *ngFor="let game of currentPlayerStats; index as i;">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{game.Data.Title}}
+        </mat-panel-title>
+        <mat-panel-description>
+          Current Players: {{game.Data.Current}}
+        </mat-panel-description>
+        <mat-panel-description>
+          24hr Peak: {{game.Data.Peak_today}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <app-today-chart [gameTitle]="game.Data.Title" [index]="i"></app-today-chart>
 
-  </mat-expansion-panel>
-</mat-accordion>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
 
 

@@ -1,6 +1,8 @@
-import {AfterViewInit, Component, ElementRef, Input, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {Chart} from "chart.js/auto";
 import {HttpClient} from "@angular/common/http";
+import {D} from "@angular/cdk/keycodes";
+import {SteamApiService} from "../services/steam-api.service";
 
 @Component({
   selector: 'app-today-chart',
@@ -10,31 +12,50 @@ import {HttpClient} from "@angular/common/http";
 export class TodayChartComponent implements AfterViewInit{
 
   @Input() gameTitle: string | undefined | boolean;
+  @Input() index: number | undefined;
 
+  // canvas for the chart
   @ViewChild("chartCanvas") myCanvas?: ElementRef<HTMLCanvasElement>;
 
   chart: any;
-
-  cleaned_data: string | null | undefined;
+  cleaned_data: any;
   data: any;
-  constructor(private http: HttpClient) {
+  averagePlayers: number | undefined
+
+  bestPlayTime: any;
+  constructor(private steam: SteamApiService) {
   }
 
   async loadStats() {
+    // make api call to steam service and prepare data for charting
     if (!localStorage.getItem(`${this.gameTitle}-24hr`)){
-      this.http.post("http://localhost:3000/api/24hr", {title: this.gameTitle})
+      this.steam.load24hrStats(this.gameTitle)
         .subscribe((stats) => {
-          //console.log(this.title)
           this.data = stats
-          this.cleaned_data = this.data.map((line: any) => parseInt(line.Data.Current.replaceAll(',', '')));
-          //console.log(typeof this.cleaned_data);
+          this.cleaned_data = this.data.map((line: any) => {
+            return {
+              y: parseInt(line.Data.Current.replaceAll(',', '')),
+              x: line.Updated
+            }
+
+          });
           localStorage.setItem(`${this.gameTitle}-24hr`, JSON.stringify(this.cleaned_data!));
+          this.cleaned_data = this.chartPrep(this.cleaned_data);
+          // create chart with data
           this.createChart();
+          let data = this.cleaned_data.map((line: { x: any, y: any})=> line.y);
+          // calculations based on player data
+          this.averagePlayers = this.calculateAverage(data);
+          this.bestPlayTime = this.bestTime(this.cleaned_data);
         })
     }
     else {
-      this.cleaned_data = JSON.parse(localStorage.getItem(`${this.gameTitle}-24hr`) || '{}');
-      this.createChart();
+      // this.cleaned_data = JSON.parse(localStorage.getItem(`${this.gameTitle}-24hr`) || '{}');
+      // this.cleaned_data = this.chartPrep(this.cleaned_data);
+      // this.createChart();
+      // let data = this.cleaned_data.map((line: { x: any, y: any})=> line.y);
+      // this.averagePlayers = this.calculateAverage(data);
+      // this.bestPlayTime = this.bestTime(this.cleaned_data);
     }
 
   }
@@ -44,14 +65,6 @@ export class TodayChartComponent implements AfterViewInit{
       type: 'line', //this denotes tha type of chart
 
       data: {// values on X-Axis
-        labels: ['00:00', '00:15', '00:30', '00:45', '01:00', '01:15', '01:30', '01:45', '02:00', '02:15', '02:30', '02:45',
-          '03:00', '03:15', '03:30', '03:45', '04:00', '04:15', '04:30', '04:45', '05:00', '05:15', '05:30', '05:45', '06:00',
-          '06:15', '06:30', '06:45', '07:00', '07:15', '07:30', '07:45', '08:00', '08:15', '08:30', '08:45', '09:00', '09:15',
-          '09:30', '09:45', '10:00', '10:15', '10:30', '10:45', '11:00', '11:15', '11:30', '11:45', '12:00', '12:15', '12:30',
-          '12:45', '13:00', '13:15', '13:30', '13:45', '14:00', '14:15', '14:30', '15:00', '15:15', '15:30', '15:45', '16:00',
-          '16:15', '16:30', '16:45', '17:00', '17:15', '17:30', '17:45', '18:00', '18:15', '18:30', '18:45', '19:00', '19:15',
-          '19:30', '19:45', '20:00', '20:15', '20:30', '20:45', '21:00', '21:15', '21:30', '21:45', '22:00', '22:15', '22:30',
-          '22:45', '23:00', '23:15', '23:30', '23:45'],
         datasets: [
           {
             label: "Players",
@@ -67,8 +80,72 @@ export class TodayChartComponent implements AfterViewInit{
     });
 
   }
+
+  chartPrep(data: any){
+    // this function makes sure chart data is ready for createChart
+    let pm;
+    let result;
+    for (let i = 0; i < data.length; i++){
+      // extract time
+      let parsedTime = data[i].x.split('T')[1].slice(0, 5);
+      let split = parsedTime.split('');
+      // this conditional needs to be improved. It is supposed to help with issues
+      // that arise from timezone differences in original dataset
+      if (split[0] === '0' && !pm) {
+        split[1] = (parseInt(split[1])-4).toString()
+        result  = split.join('')
+      }
+      else if (split[0] === '0' && pm){
+        let num = parseInt(split[0]  + split[1]) + 20
+        result = num.toString() + split.slice(2).join('');
+
+      }
+      else {
+        pm = true;
+        let num = parseInt(split[0]  + split[1]) - 4
+        result = num.toString() + split.slice(2).join('');
+      }
+
+      // save time stamp as x coordinate
+      data[i].x = result;
+    }
+    return data
+  }
+
+  calculateAverage(data: any) {
+    // average num of players since midnight
+    let sum = 0;
+    for (let i = 0; i < data.length; i++) {
+      sum += data[i];
+    }
+    return Math.round(sum / data.length)
+  }
+
+  bestTime(data: any){
+    // time when the most people are playing
+    let highest = 0;
+    let timestamp;
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].y > highest){
+        highest = data[i].y;
+        timestamp = data[i].x;
+      }
+    }
+    return timestamp;
+  }
+
   ngAfterViewInit() {
-    this.loadStats();
+    this.loadStats().then(()=> {
+      // if data is in local storage load from there before rendering
+      if (localStorage.getItem(`${this.gameTitle}-24hr`)){
+        this.cleaned_data = JSON.parse(localStorage.getItem(`${this.gameTitle}-24hr`) || '{}');
+        this.cleaned_data = this.chartPrep(this.cleaned_data);
+        this.createChart();
+        let data = this.cleaned_data.map((line: { x: any, y: any})=> line.y);
+        this.averagePlayers = this.calculateAverage(data);
+        this.bestPlayTime = this.bestTime(this.cleaned_data);
+      }
+    });
 
   }
 }

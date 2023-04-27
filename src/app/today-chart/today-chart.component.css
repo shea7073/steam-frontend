@@ -1,0 +1,19 @@
+.stat-container {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+
+.average-players {
+  border-right: 1px solid gray;
+  padding: 10px;
+}
+
+.best-time {
+  border-right: 1px solid gray;
+  padding: 10px;
+}
+
+.current-rank {
+  padding: 10px;
+}
